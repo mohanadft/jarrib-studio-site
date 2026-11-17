@@ -69,7 +69,7 @@ test('click cycles', async () => {
 
 test('rapid presses do not desync', async () => {
   const page = await open();
-  for (let n = 0; n < 5; n++) await page.click('#press');
+  await page.evaluate(() => { for (let i = 0; i < 5; i++) document.querySelector('#press').click(); });
   await sleep(400);
   const s = await state(page);
   assertSlide(s, 5 % 3);

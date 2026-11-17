@@ -1,6 +1,6 @@
 import { createServer } from 'node:http';
 import { readFile } from 'node:fs/promises';
-import { extname, join, normalize, resolve } from 'node:path';
+import { extname, join, normalize, resolve, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const ROOT = resolve(fileURLToPath(new URL('../..', import.meta.url)));
@@ -20,7 +20,7 @@ export async function serve() {
   const server = createServer(async (req, res) => {
     const path = decodeURIComponent(new URL(req.url, 'http://x').pathname);
     const file = normalize(join(ROOT, path === '/' ? 'index.html' : path));
-    if (!file.startsWith(ROOT)) {
+    if (!(file === ROOT || file.startsWith(ROOT + sep))) {
       res.writeHead(403).end();
       return;
     }

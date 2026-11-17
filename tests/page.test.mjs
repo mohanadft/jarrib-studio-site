@@ -50,6 +50,15 @@ test("no dashes in copy", () => {
   assert.ok(!text.includes("--"), "double hyphen in copy");
 });
 
+test("no dashes in attribute copy and hero.js strings", () => {
+  const attrs = [...html.matchAll(/\b(?:content|alt|aria-label)="([^"]*)"/g)].map((m) => m[1]);
+  const literals = [...load("js/hero.js").matchAll(/'([^'\n]*)'|"([^"\n]*)"/g)].map((m) => m[1] ?? m[2]);
+  for (const s of [...attrs, ...literals]) {
+    assert.ok(!s.includes("—"), `em dash in: ${s}`);
+    assert.ok(!s.includes("--"), `double hyphen in: ${s}`);
+  }
+});
+
 test("no canvas template syntax left", () => {
   for (const s of ["{{", "/_blob/", "<sc-if", "<sc-for", "<x-dc"]) assert.ok(!html.includes(s), s);
 });
@@ -104,7 +113,7 @@ test("hero hooks for js", () => {
   assert.match(html, /class="press-art"/);
   const dots = html.match(/<div[^>]*id="dots"[^>]*>([\s\S]*?)<\/div>/)?.[1] ?? "";
   assert.equal(count(dots, "<span"), 3);
-  assert.match(dots, /^\s*<span class="dot is-active">/);
+  assert.match(dots, /^\s*<span class="dot is-active"[^>]*>/);
   assert.match(html, /<script type="module" src="js\/hero\.js"><\/script>/);
   const screen = html.match(/id="phone-screen"[^>]*>([\s\S]*?)<\/div>/)?.[1] ?? "";
   assert.match(screen, /src="assets\/img\/reel-arm\.webp"/);

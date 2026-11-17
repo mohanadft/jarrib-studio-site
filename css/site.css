@@ -63,7 +63,6 @@ img { max-width: 100%; height: auto; display: block; }
 :focus-visible {
   outline: 3px solid var(--paper);
   outline-offset: 4px;
-  border-radius: 4px;
 }
 #contact :focus-visible { outline-color: var(--ink); }
 

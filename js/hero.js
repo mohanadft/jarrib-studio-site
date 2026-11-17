@@ -56,8 +56,6 @@ function init() {
     }, PRESS_MS);
   });
 
-  render(0);
-
   // Warm the second reel once the first has settled.
   const preload = () => { new Image().src = SLIDES[1].src; };
   (window.requestIdleCallback ?? ((fn) => setTimeout(fn, 200)))(preload);
