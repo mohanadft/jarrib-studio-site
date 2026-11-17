@@ -44,3 +44,12 @@ for (const [p, size] of [["favicon-32.png", 32], ["apple-touch-icon.png", 180]])
     assert.equal(b.readUInt32BE(20), size);
   });
 }
+
+test("og image", () => {
+  assert.ok(existsSync(new URL("../og.png", import.meta.url)), "og.png missing");
+  const b = read("og.png");
+  assert.equal(b.subarray(1, 4).toString("latin1"), "PNG");
+  assert.equal(b.readUInt32BE(16), 1200);
+  assert.equal(b.readUInt32BE(20), 630);
+  assert.ok(b.length < 300 * KB, `size ${b.length}`);
+});
