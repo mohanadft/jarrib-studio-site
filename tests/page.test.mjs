@@ -86,7 +86,8 @@ test("forbidden content", () => {
 });
 
 test("links", () => {
-  assert.ok(count(html, MAIL) >= 3, "mailto count");
+  assert.ok(count(html, MAIL) >= 2, "mailto count");
+  assert.match(html, /<a class="pill pill--red" href="https:\/\/wa\.me\/970597837283"[^>]*>احكي معنا<\/a>/, "header CTA opens WhatsApp");
   for (const u of PLATFORMS) assert.ok(count(html, `href="${u}"`) >= 2, u);
 });
 
